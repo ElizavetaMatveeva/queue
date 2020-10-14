@@ -1,13 +1,4 @@
 // Написать программу, релаизующую абстрактный тип данных очередь
-// Прототипы функций:
-int nextPos(int p); // Функци¤, возвращающа¤ номер следующей позиции
-void reset(); // Функци¤, сбрасывающа¤ значение головы и хвоста на начальные
-void enqueue(char ch); // Функци¤, помещающа¤ символ в хвост очереди
-char dequeue(); // Функци¤, снимающа¤ символ из головы очереди
-char front(); // Функци¤, копирующа¤ и возвращающа¤ значение из головы
-int full(); // Функци¤, провер¤юща¤, полна¤ ли очередь, возвращает 1 или 0 (правда или ложь)
-int empty(); // Функци¤, провер¤юща¤, пуста¤ ли очередь, возвращает 1 или 0 (правда или ложь)
-class queue; // Очередь
 
 #include <iostream>
 using namespace std;
@@ -15,20 +6,20 @@ using namespace std;
 
 class queue{
 public:
-	void reset(); // Функци¤, сбрасывающа¤ значение головы и хвоста на начальные	
-	void enqueue(char ch); // Функци¤, помещающа¤ символ в хвост очереди
-	char dequeue(); // Функци¤, снимающа¤ символ из головы очереди
-	char front() { return s[rear]; } // Функци¤, копирующа¤ и возвращающа¤ значение из головы
-	int full() { return (nextPos(nextPos(tail))==rear); } // Функци¤, провер¤юща¤, полна¤ ли очередь, возвращает 1 или 0 (правда или ложь)
-	int empty() {  return (nextPos(tail)==rear); } // Функци¤, провер¤юща¤, пуста¤ ли очередь, возвращает 1 или 0 (правда или ложь)
+	void reset(); // Функция, сбрасывающая значение головы и хвоста на начальные	
+	void enqueue(char ch); // Функция, помещающая символ в хвост очереди
+	char dequeue(); // Функция, снимающая символ из головы очереди
+	char front() { return s[front]; } // Функция, копирующая и возвращающая значение из головы
+	int full() { return (nextPos(nextPos(tail))==front); } // Функция, проверяющая, полная ли очередь, возвращает 1 или 0 
+	int empty() {  return (nextPos(tail)==front); } // Функция, проверяющая, пустая ли очередь, возвращает 1 или 0 
 private:
 	char s[L];
-	int rear, tail;
-	int nextPos(int p) { return (p+1)%L; } // Функци¤, возвращающа¤ номер следующей позиции
+	int front, tail;
+	int nextPos(int p) { return (p+1)%L; } // Функция, возвращающая номер следующей позиции
 };
 
 void queue::reset(){ 
-	rear=0;
+	front=0;
 	tail=L-1;
 } 
 
@@ -38,8 +29,8 @@ void queue::enqueue(char ch) {
 }
 
 char queue::dequeue(){ 
-	char c=s[rear];
-	rear=nextPos(rear);
+	char c=s[front];
+	front=nextPos(front);
 	return c;	
 }
 	
@@ -49,7 +40,7 @@ int main(){
 	q.reset();
 	int i=0;
 	while (!q.full())
-		q.enqueue(str[i++]); // Очередь заполн¤етс¤ элементами символьного массива
+		q.enqueue(str[i++]); // Очередь заполняется элементами символьного массива
 	while (!q.empty())
 		cout<<q.dequeue()<<endl; // Вывод очереди
 	return 0;
